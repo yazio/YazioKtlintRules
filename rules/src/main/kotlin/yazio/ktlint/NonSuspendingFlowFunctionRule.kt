@@ -1,10 +1,13 @@
 package yazio.ktlint
 
 import com.pinterest.ktlint.core.Rule
+import com.pinterest.ktlint.core.ast.ElementType.EQ
 import com.pinterest.ktlint.core.ast.ElementType.FUN
+import com.pinterest.ktlint.core.ast.ElementType.LBRACE
 import com.pinterest.ktlint.core.ast.ElementType.MODIFIER_LIST
 import com.pinterest.ktlint.core.ast.ElementType.SUSPEND_KEYWORD
 import com.pinterest.ktlint.core.ast.ElementType.TYPE_REFERENCE
+import com.pinterest.ktlint.core.ast.nextCodeLeaf
 import org.jetbrains.kotlin.com.intellij.lang.ASTNode
 
 class NonSuspendingFlowFunctionRule : Rule("yazio:suspending-flow") {
@@ -14,16 +17,22 @@ class NonSuspendingFlowFunctionRule : Rule("yazio:suspending-flow") {
     autoCorrect: Boolean,
     emit: (offset: Int, errorMessage: String, canBeAutoCorrected: Boolean) -> Unit
   ) {
-    if (node.elementType != FUN) return
-    val typeReference = node.findChildByType(TYPE_REFERENCE)
+    if (node.elementType != TYPE_REFERENCE) return
+
+    val treeParent = node.treeParent
+
+    if (treeParent.elementType != FUN) return
+
+    if (!node.text.startsWith("Flow<")) return
+
+    val suspendKeyword = treeParent?.findChildByType(MODIFIER_LIST)?.findChildByType(SUSPEND_KEYWORD)
       ?: return
-    if (!typeReference.text.startsWith("Flow<")) {
-      return
-    }
-    val modifierList = node.findChildByType(MODIFIER_LIST)
+
+    val nextCodeLeafType = node.nextCodeLeaf(skipSubtree = true)?.elementType
       ?: return
-    val suspendKeyword = modifierList.findChildByType(SUSPEND_KEYWORD)
-      ?: return
+
+    if (nextCodeLeafType != LBRACE && nextCodeLeafType != EQ) return
+
     emit(
       suspendKeyword.startOffset,
       ERROR_MESSAGE,
