@@ -8,3 +8,4 @@ build
 /.idea/kotlinc.xml
 /.idea/misc.xml
 /.idea/vcs.xml
+/local.properties
