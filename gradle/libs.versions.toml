@@ -13,3 +13,4 @@ ktlint-test = { module = "com.pinterest.ktlint:ktlint-test", version.ref = "ktli
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlinter = { id = "org.jmailen.kotlinter", version = "3.12.0" }

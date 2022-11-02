@@ -19,7 +19,7 @@ class NonSuspendingFlowFunctionRuleTest {
     }
   }
 
-  """.trimIndent()
+      """.trimIndent(),
     ).hasLintViolationWithoutAutoCorrect(5, 3, NonSuspendingFlowFunctionRule.ERROR_MESSAGE)
   }
 
@@ -35,10 +35,9 @@ class NonSuspendingFlowFunctionRuleTest {
     suspend fun suspendingFlow(): Flow<Unit> = TODO()
   }
 
-  """.trimIndent()
+      """.trimIndent(),
     ).hasLintViolationWithoutAutoCorrect(5, 3, NonSuspendingFlowFunctionRule.ERROR_MESSAGE)
   }
-
 
   @Test
   fun flowAsParameterShowsNoError() {
@@ -54,7 +53,7 @@ class NonSuspendingFlowFunctionRuleTest {
     }
   }
 
-  """.trimIndent()
+      """.trimIndent(),
     ).hasNoLintViolations()
   }
 
@@ -72,7 +71,7 @@ class NonSuspendingFlowFunctionRuleTest {
     }
   }
 
-  """.trimIndent()
+      """.trimIndent(),
     ).hasNoLintViolations()
   }
 
@@ -90,10 +89,9 @@ class NonSuspendingFlowFunctionRuleTest {
     }
   }
 
-""".trimIndent()
+      """.trimIndent(),
     ).hasNoLintViolations()
   }
-
 
   @Test
   fun noErrorOnNonSuspendingFlow() {
@@ -109,7 +107,7 @@ class NonSuspendingFlowFunctionRuleTest {
     }
   }
 
-""".trimIndent()
+      """.trimIndent(),
     ).hasNoLintViolations()
   }
 }

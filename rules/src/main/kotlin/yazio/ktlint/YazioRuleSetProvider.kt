@@ -11,7 +11,7 @@ class YazioRuleSetProvider : RuleSetProviderV2(
     license = "https://github.com/yazio/YazioKtlintRules/blob/main/LICENSE",
     repositoryUrl = "https://github.com/yazio/YazioKtlintRules",
     issueTrackerUrl = "https://github.com/yazio/YazioKtlintRules/issues",
-  )
+  ),
 ) {
   override fun getRuleProviders(): Set<RuleProvider> {
     return setOf(RuleProvider { NonSuspendingFlowFunctionRule() })

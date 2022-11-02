@@ -15,7 +15,7 @@ class NonSuspendingFlowFunctionRule : Rule("yazio:suspending-flow") {
   override fun beforeVisitChildNodes(
     node: ASTNode,
     autoCorrect: Boolean,
-    emit: (offset: Int, errorMessage: String, canBeAutoCorrected: Boolean) -> Unit
+    emit: (offset: Int, errorMessage: String, canBeAutoCorrected: Boolean) -> Unit,
   ) {
     if (node.elementType != TYPE_REFERENCE) return
 
@@ -36,7 +36,7 @@ class NonSuspendingFlowFunctionRule : Rule("yazio:suspending-flow") {
     emit(
       suspendKeyword.startOffset,
       ERROR_MESSAGE,
-      false
+      false,
     )
   }
 
