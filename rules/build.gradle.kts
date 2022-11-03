@@ -16,18 +16,6 @@ tasks.withType<Test>().configureEach {
   useJUnitPlatform()
 }
 
-publishing {
-  repositories {
-    maven {
-      setUrl("https://maven.pkg.github.com/yazio/YazioKtlintRules")
-      credentials {
-        username = System.getenv("GITHUB_ACTOR")
-        password = System.getenv("GITHUB_TOKEN")
-      }
-    }
-  }
-}
-
 val sourcesJar by tasks.registering(Jar::class) {
   dependsOn(tasks.classes)
   archiveClassifier.set("sources")
@@ -55,7 +43,6 @@ publishing {
 
       groupId = "yazio"
       artifactId = "ktlint"
-      version = providers.gradleProperty("publishVersion").orNull
 
       pom {
         description.set("YAZIO ktlint rules")
