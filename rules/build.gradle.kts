@@ -4,8 +4,6 @@ plugins {
   `maven-publish`
 }
 
-group = "yazio"
-
 dependencies {
   implementation(libs.ktlint.core)
   testImplementation(libs.ktlint.test)
@@ -30,21 +28,12 @@ val javadocJar by tasks.registering(Jar::class) {
   from(tasks.javadoc.map { it.destinationDir!! })
 }
 
-artifacts {
-  archives(sourcesJar)
-  archives(javadocJar)
-}
-
 publishing {
   publications {
-    register<MavenPublication>("yazioktlint") {
-
+    register<MavenPublication>("mavenJava") {
       from(components["java"])
       artifact(sourcesJar)
       artifact(javadocJar)
-
-      artifactId = "ktlint"
-
       pom {
         description.set("YAZIO ktlint rules")
         url.set("https://github.com/yazio/YazioKtlintRules")
