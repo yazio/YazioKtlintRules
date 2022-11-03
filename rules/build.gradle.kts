@@ -43,7 +43,9 @@ publishing {
       artifact(sourcesJar)
       artifact(javadocJar)
 
-      artifactId = "ktlint"
+      groupId = project.group.toString()
+      artifactId = project.name
+      version = project.version.toString()
 
       pom {
         description.set("YAZIO ktlint rules")
