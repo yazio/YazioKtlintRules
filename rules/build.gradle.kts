@@ -35,8 +35,8 @@ publishing {
     register<MavenPublication>("yazioktlint") {
 
       from(components["java"])
-      artifact(sourcesJar)
-      artifact(javadocJar)
+      // artifact(sourcesJar)
+      // artifact(javadocJar)
 
       groupId = project.group.toString()
       artifactId = project.name
