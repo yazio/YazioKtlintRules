@@ -31,20 +31,9 @@ val javadocJar by tasks.registering(Jar::class) {
 publishing {
   publications {
     register<MavenPublication>("mavenJava") {
-
       from(components["java"])
       artifact(sourcesJar)
       artifact(javadocJar)
-
-      println(
-        """
-        debugging:
-        $groupId
-        $artifactId
-        $version
-      """.trimIndent(),
-      )
-
       pom {
         description.set("YAZIO ktlint rules")
         url.set("https://github.com/yazio/YazioKtlintRules")
