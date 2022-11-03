@@ -32,11 +32,11 @@ val javadocJar by tasks.registering(Jar::class) {
 
 publishing {
   publications {
-    register<MavenPublication>("yazioktlint") {
+    register<MavenPublication>("mavenJava") {
 
       from(components["java"])
-      // artifact(sourcesJar)
-      // artifact(javadocJar)
+      artifact(sourcesJar)
+      artifact(javadocJar)
 
       groupId = project.group.toString()
       artifactId = project.name
