@@ -30,11 +30,6 @@ val javadocJar by tasks.registering(Jar::class) {
   from(tasks.javadoc.map { it.destinationDir!! })
 }
 
-artifacts {
-  archives(sourcesJar)
-  archives(javadocJar)
-}
-
 publishing {
   publications {
     register<MavenPublication>("yazioktlint") {
