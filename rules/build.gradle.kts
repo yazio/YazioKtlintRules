@@ -4,8 +4,6 @@ plugins {
   `maven-publish`
 }
 
-group = "yazio"
-
 dependencies {
   implementation(libs.ktlint.core)
   testImplementation(libs.ktlint.test)
@@ -38,9 +36,14 @@ publishing {
       artifact(sourcesJar)
       artifact(javadocJar)
 
-      groupId = project.group.toString()
-      artifactId = project.name
-      version = project.version.toString()
+      println(
+        """
+        debugging:
+        $groupId
+        $artifactId
+        $version
+      """.trimIndent(),
+      )
 
       pom {
         description.set("YAZIO ktlint rules")
