@@ -3,6 +3,7 @@ package yazio.ktlint
 import com.pinterest.ktlint.core.RuleProvider
 import com.pinterest.ktlint.core.RuleSetProviderV2
 
+@Suppress("unused")
 class YazioRuleSetProvider : RuleSetProviderV2(
   id = "yazio",
   about = About(
@@ -14,6 +15,6 @@ class YazioRuleSetProvider : RuleSetProviderV2(
   ),
 ) {
   override fun getRuleProviders(): Set<RuleProvider> {
-    return setOf(RuleProvider { NonSuspendingFlowFunctionRule() })
+    return setOf(RuleProvider { NonSuspendingFlowFunctionRule() }, RuleProvider { NonReflectionSerializationRule() })
   }
 }
