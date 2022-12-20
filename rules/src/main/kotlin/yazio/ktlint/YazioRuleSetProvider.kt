@@ -15,6 +15,10 @@ class YazioRuleSetProvider : RuleSetProviderV2(
   ),
 ) {
   override fun getRuleProviders(): Set<RuleProvider> {
-    return setOf(RuleProvider { NonSuspendingFlowFunctionRule() }, RuleProvider { NonReflectionSerializationRule() })
+    return setOf(
+      RuleProvider { NonSuspendingFlowFunctionRule() },
+      RuleProvider { NonReflectionSerializationRule() },
+      RuleProvider { MagicAndroidVersionsRule() },
+    )
   }
 }
