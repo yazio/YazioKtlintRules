@@ -1,6 +1,8 @@
+import org.jlleitschuh.gradle.ktlint.KtlintExtension
+
 plugins {
   alias(libs.plugins.kotlin.jvm)
-  alias(libs.plugins.kotlinter)
+  alias(libs.plugins.ktlint)
   `maven-publish`
 }
 
@@ -47,4 +49,8 @@ publishing {
       }
     }
   }
+}
+
+extensions.configure<KtlintExtension> {
+  version.set(libs.versions.ktlint.get())
 }
