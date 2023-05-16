@@ -1,5 +1,3 @@
-import org.jlleitschuh.gradle.ktlint.KtlintExtension
-
 plugins {
   alias(libs.plugins.kotlin.jvm)
   alias(libs.plugins.ktlint)
@@ -7,7 +5,8 @@ plugins {
 }
 
 dependencies {
-  implementation(libs.ktlint.core)
+  implementation(libs.ktlint.rule.engine.core)
+  implementation(libs.ktlint.cli.ruleset.core)
   testImplementation(libs.ktlint.test)
   testImplementation(libs.junit.jupiter.api)
   testImplementation(libs.junit.jupiter.params)
@@ -51,6 +50,6 @@ publishing {
   }
 }
 
-extensions.configure<KtlintExtension> {
-  version.set(libs.versions.ktlint.get())
+kotlin {
+  jvmToolchain(libs.versions.java.get().toInt())
 }
