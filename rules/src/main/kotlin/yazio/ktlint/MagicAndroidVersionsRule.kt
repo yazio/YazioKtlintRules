@@ -1,12 +1,16 @@
 package yazio.ktlint
 
-import com.pinterest.ktlint.core.Rule
-import com.pinterest.ktlint.core.ast.ElementType.DOT_QUALIFIED_EXPRESSION
-import com.pinterest.ktlint.core.ast.ElementType.IMPORT_DIRECTIVE
+import com.pinterest.ktlint.rule.engine.core.api.ElementType.DOT_QUALIFIED_EXPRESSION
+import com.pinterest.ktlint.rule.engine.core.api.ElementType.IMPORT_DIRECTIVE
+import com.pinterest.ktlint.rule.engine.core.api.Rule
+import com.pinterest.ktlint.rule.engine.core.api.RuleId
 import org.jetbrains.kotlin.com.intellij.lang.ASTNode
 import org.jetbrains.kotlin.psi.psiUtil.parents
 
-class MagicAndroidVersionsRule : Rule("yazio:android-versions") {
+class MagicAndroidVersionsRule : Rule(
+  ruleId = RuleId("yazio:android-versions"),
+  about = aboutYazio,
+) {
 
   private val reported = mutableSetOf<Int>()
 

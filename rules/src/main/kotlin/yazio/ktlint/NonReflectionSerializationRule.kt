@@ -1,11 +1,12 @@
 package yazio.ktlint
 
-import com.pinterest.ktlint.core.Rule
-import com.pinterest.ktlint.core.ast.ElementType
-import com.pinterest.ktlint.core.ast.ElementType.REFERENCE_EXPRESSION
-import com.pinterest.ktlint.core.ast.ElementType.VALUE_ARGUMENT
-import com.pinterest.ktlint.core.ast.ElementType.VALUE_ARGUMENT_LIST
-import com.pinterest.ktlint.core.ast.children
+import com.pinterest.ktlint.rule.engine.core.api.ElementType
+import com.pinterest.ktlint.rule.engine.core.api.ElementType.REFERENCE_EXPRESSION
+import com.pinterest.ktlint.rule.engine.core.api.ElementType.VALUE_ARGUMENT
+import com.pinterest.ktlint.rule.engine.core.api.ElementType.VALUE_ARGUMENT_LIST
+import com.pinterest.ktlint.rule.engine.core.api.Rule
+import com.pinterest.ktlint.rule.engine.core.api.RuleId
+import com.pinterest.ktlint.rule.engine.core.api.children
 import org.jetbrains.kotlin.com.intellij.lang.ASTNode
 
 private val methodNamesWithExpectedArgumentsCount = mapOf(
@@ -22,7 +23,10 @@ private val methodNamesWithExpectedArgumentsCount = mapOf(
   "decodeFromHexString" to 2,
 )
 
-class NonReflectionSerializationRule : Rule("yazio:serialization-no-reflect") {
+class NonReflectionSerializationRule : Rule(
+  ruleId = RuleId("yazio:serialization-no-reflect"),
+  about = aboutYazio,
+) {
 
   override fun beforeVisitChildNodes(
     node: ASTNode,
