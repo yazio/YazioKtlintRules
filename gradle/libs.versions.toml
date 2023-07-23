@@ -1,6 +1,6 @@
 [versions]
 kotlin = "1.9.0"
-jupiter = "5.9.3"
+jupiter = "5.10.0"
 ktlint = "0.50.0"
 java = "11"
 
