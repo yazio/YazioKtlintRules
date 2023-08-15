@@ -15,4 +15,4 @@ ktlint-test = { module = "com.pinterest.ktlint:ktlint-test", version.ref = "ktli
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version = "11.5.0" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version = "11.5.1" }
