@@ -8,6 +8,7 @@ dependencies {
   implementation(libs.ktlint.rule.engine.core)
   implementation(libs.ktlint.cli.ruleset.core)
   testImplementation(libs.ktlint.test)
+  testImplementation(libs.slf4j)
   testImplementation(libs.junit.jupiter.api)
   testImplementation(libs.junit.jupiter.params)
   testRuntimeOnly(libs.junit.jupiter.engine)

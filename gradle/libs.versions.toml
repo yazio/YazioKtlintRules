@@ -1,7 +1,7 @@
 [versions]
 kotlin = "1.9.10"
 jupiter = "5.10.0"
-ktlint = "0.50.0"
+ktlint = "1.0.0"
 java = "11"
 
 [libraries]
@@ -12,6 +12,8 @@ junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", vers
 ktlint-rule-engine-core = { module = "com.pinterest.ktlint:ktlint-rule-engine-core", version.ref = "ktlint" }
 ktlint-cli-ruleset-core = { module = "com.pinterest.ktlint:ktlint-cli-ruleset-core", version.ref = "ktlint" }
 ktlint-test = { module = "com.pinterest.ktlint:ktlint-test", version.ref = "ktlint" }
+
+slf4j = "org.slf4j:slf4j-simple:2.0.9"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
