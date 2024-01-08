@@ -13,7 +13,7 @@ ktlint-rule-engine-core = { module = "com.pinterest.ktlint:ktlint-rule-engine-co
 ktlint-cli-ruleset-core = { module = "com.pinterest.ktlint:ktlint-cli-ruleset-core", version.ref = "ktlint" }
 ktlint-test = { module = "com.pinterest.ktlint:ktlint-test", version.ref = "ktlint" }
 
-slf4j = "org.slf4j:slf4j-simple:2.0.9"
+slf4j = "org.slf4j:slf4j-simple:2.0.11"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
