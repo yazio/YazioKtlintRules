@@ -36,6 +36,17 @@ class NonReflectionSerializationRule :
     node: ASTNode,
     emit: (offset: Int, errorMessage: String, canBeAutoCorrected: Boolean) -> AutocorrectDecision,
   ) {
+    if (node.elementType == ElementType.IMPORT_DIRECTIVE) {
+      if (node.text.contains("import kotlinx.serialization.serializer")) {
+        emit(
+          node.startOffset,
+          IMPORT_ERROR_MESSAGE,
+          false,
+        )
+      }
+      return
+    }
+
     if (node.elementType != ElementType.CALL_EXPRESSION) return
 
     val referenceExpression = node.findChildByType(REFERENCE_EXPRESSION) ?: return
@@ -59,6 +70,10 @@ class NonReflectionSerializationRule :
     val ERROR_MESSAGE =
       """For better performance, specify the serializer manually instead of relying on reflection.
       |Instead of json.encodeToString(Person("Alice")), use json.encodeToString(Person.serializer(), Person("Alice"))
+      """.trimMargin()
+    val IMPORT_ERROR_MESSAGE =
+      """The import 'kotlinx.serialization.serializer' is forbidden.
+        |To improve performance, use explicit serializers rather than relying on reflection.
       """.trimMargin()
   }
 }
