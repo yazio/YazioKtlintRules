@@ -11,7 +11,6 @@ class MagicAndroidVersionsRule : Rule(
   ruleId = RuleId("yazio:android-versions"),
   about = aboutYazio,
 ) {
-
   private val reported = mutableSetOf<Int>()
 
   override fun beforeVisitChildNodes(
@@ -49,11 +48,12 @@ class MagicAndroidVersionsRule : Rule(
   }
 
   companion object {
-    val ERROR_MESSAGE = """
+    val ERROR_MESSAGE =
+      """
       Use the value of the constants directly. For Android version
       codes, the tooling and documentation most of the times refers
       to the actual integer values. Therefore in code we should refer
       to integer values as well.
-    """.trimIndent()
+      """.trimIndent()
   }
 }

@@ -4,20 +4,19 @@ import com.pinterest.ktlint.test.KtLintAssertThat.Companion.assertThatRule
 import org.junit.jupiter.api.Test
 
 class NonSuspendingFlowFunctionRuleTest {
-
   @Test
   fun suspendingFlowShowsError() {
     assertThatRule { NonSuspendingFlowFunctionRule() }(
       // language=kotlin
       """
-  import kotlinx.coroutines.flow.Flow
+      import kotlinx.coroutines.flow.Flow
 
-  class MyClass {
+      class MyClass {
 
-    suspend fun suspendingFlow(): Flow<Unit> {
-      TODO()
-    }
-  }
+        suspend fun suspendingFlow(): Flow<Unit> {
+          TODO()
+        }
+      }
 
       """.trimIndent(),
     ).hasLintViolationWithoutAutoCorrect(5, 3, NonSuspendingFlowFunctionRule.ERROR_MESSAGE)
@@ -28,12 +27,12 @@ class NonSuspendingFlowFunctionRuleTest {
     assertThatRule { NonSuspendingFlowFunctionRule() }(
       // language=kotlin
       """
-  import kotlinx.coroutines.flow.Flow
+      import kotlinx.coroutines.flow.Flow
 
-  class MyClass {
+      class MyClass {
 
-    suspend fun suspendingFlow(): Flow<Unit> = TODO()
-  }
+        suspend fun suspendingFlow(): Flow<Unit> = TODO()
+      }
 
       """.trimIndent(),
     ).hasLintViolationWithoutAutoCorrect(5, 3, NonSuspendingFlowFunctionRule.ERROR_MESSAGE)
@@ -44,14 +43,14 @@ class NonSuspendingFlowFunctionRuleTest {
     assertThatRule { NonSuspendingFlowFunctionRule() }(
       // language=kotlin
       """
-  import kotlinx.coroutines.flow.Flow
+      import kotlinx.coroutines.flow.Flow
 
-  class MyClass {
+      class MyClass {
 
-    suspend fun suspendingFlow(flow : Flow<Unit>) {
-      TODO()
-    }
-  }
+        suspend fun suspendingFlow(flow : Flow<Unit>) {
+          TODO()
+        }
+      }
 
       """.trimIndent(),
     ).hasNoLintViolations()
@@ -62,14 +61,14 @@ class NonSuspendingFlowFunctionRuleTest {
     assertThatRule { NonSuspendingFlowFunctionRule() }(
       // language=kotlin
       """
-  import kotlinx.coroutines.flow.Flow
+      import kotlinx.coroutines.flow.Flow
 
-  class MyClass {
+      class MyClass {
 
-    suspend fun Flow<Unit>.suspendingFlow() {
-      TODO()
-    }
-  }
+        suspend fun Flow<Unit>.suspendingFlow() {
+          TODO()
+        }
+      }
 
       """.trimIndent(),
     ).hasNoLintViolations()
@@ -80,14 +79,14 @@ class NonSuspendingFlowFunctionRuleTest {
     assertThatRule { NonSuspendingFlowFunctionRule() }(
       // language=kotlin
       """
-  import kotlinx.coroutines.flow.Flow
+      import kotlinx.coroutines.flow.Flow
 
-  class MyClass {
+      class MyClass {
 
-    suspend fun suspendMe(): Int {
-      TODO()
-    }
-  }
+        suspend fun suspendMe(): Int {
+          TODO()
+        }
+      }
 
       """.trimIndent(),
     ).hasNoLintViolations()
@@ -98,14 +97,14 @@ class NonSuspendingFlowFunctionRuleTest {
     assertThatRule { NonSuspendingFlowFunctionRule() }(
       // language=kotlin
       """
-  import kotlinx.coroutines.flow.Flow
+      import kotlinx.coroutines.flow.Flow
 
-  class MyClass {
+      class MyClass {
 
-    fun suspendingFlow(): Flow<Unit> {
-      TODO()
-    }
-  }
+        fun suspendingFlow(): Flow<Unit> {
+          TODO()
+        }
+      }
 
       """.trimIndent(),
     ).hasNoLintViolations()

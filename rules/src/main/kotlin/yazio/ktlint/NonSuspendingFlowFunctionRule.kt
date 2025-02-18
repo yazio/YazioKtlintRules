@@ -15,7 +15,6 @@ class NonSuspendingFlowFunctionRule : Rule(
   ruleId = RuleId("yazio:suspending-flow"),
   about = aboutYazio,
 ) {
-
   override fun beforeVisitChildNodes(
     node: ASTNode,
     autoCorrect: Boolean,
@@ -29,11 +28,13 @@ class NonSuspendingFlowFunctionRule : Rule(
 
     if (!node.text.startsWith("Flow<")) return
 
-    val suspendKeyword = treeParent?.findChildByType(MODIFIER_LIST)?.findChildByType(SUSPEND_KEYWORD)
-      ?: return
+    val suspendKeyword =
+      treeParent?.findChildByType(MODIFIER_LIST)?.findChildByType(SUSPEND_KEYWORD)
+        ?: return
 
-    val nextCodeLeafType = node.nextCodeLeaf(skipSubtree = true)?.elementType
-      ?: return
+    val nextCodeLeafType =
+      node.nextCodeLeaf(skipSubtree = true)?.elementType
+        ?: return
 
     if (nextCodeLeafType != LBRACE && nextCodeLeafType != EQ) return
 
@@ -45,13 +46,14 @@ class NonSuspendingFlowFunctionRule : Rule(
   }
 
   companion object {
-    val ERROR_MESSAGE = """
+    val ERROR_MESSAGE =
+      """
       Functions that return a Flow should not suspend.
       If you need some form of initial calculation you can use
       flow {
         val initial = suspendingCall()
         emitAll(myFlow(initial))
       }
-    """.trimIndent()
+      """.trimIndent()
   }
 }
