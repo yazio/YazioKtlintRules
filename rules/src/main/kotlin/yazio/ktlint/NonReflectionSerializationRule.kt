@@ -1,10 +1,12 @@
 package yazio.ktlint
 
+import com.pinterest.ktlint.rule.engine.core.api.AutocorrectDecision
 import com.pinterest.ktlint.rule.engine.core.api.ElementType
 import com.pinterest.ktlint.rule.engine.core.api.ElementType.REFERENCE_EXPRESSION
 import com.pinterest.ktlint.rule.engine.core.api.ElementType.VALUE_ARGUMENT
 import com.pinterest.ktlint.rule.engine.core.api.ElementType.VALUE_ARGUMENT_LIST
 import com.pinterest.ktlint.rule.engine.core.api.Rule
+import com.pinterest.ktlint.rule.engine.core.api.RuleAutocorrectApproveHandler
 import com.pinterest.ktlint.rule.engine.core.api.RuleId
 import com.pinterest.ktlint.rule.engine.core.api.children
 import org.jetbrains.kotlin.com.intellij.lang.ASTNode
@@ -24,14 +26,15 @@ private val methodNamesWithExpectedArgumentsCount =
     "decodeFromHexString" to 2,
   )
 
-class NonReflectionSerializationRule : Rule(
-  ruleId = RuleId("yazio:serialization-no-reflect"),
-  about = aboutYazio,
-) {
+class NonReflectionSerializationRule :
+  Rule(
+    ruleId = RuleId("yazio:serialization-no-reflect"),
+    about = aboutYazio,
+  ),
+  RuleAutocorrectApproveHandler {
   override fun beforeVisitChildNodes(
     node: ASTNode,
-    autoCorrect: Boolean,
-    emit: (offset: Int, errorMessage: String, canBeAutoCorrected: Boolean) -> Unit,
+    emit: (offset: Int, errorMessage: String, canBeAutoCorrected: Boolean) -> AutocorrectDecision,
   ) {
     if (node.elementType != ElementType.CALL_EXPRESSION) return
 
