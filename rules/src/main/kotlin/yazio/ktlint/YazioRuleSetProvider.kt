@@ -10,6 +10,7 @@ class YazioRuleSetProvider : RuleSetProviderV3(RuleSetId("yazio")) {
     return setOf(
       RuleProvider { NonSuspendingFlowFunctionRule() },
       RuleProvider { NonReflectionSerializationRule() },
+      RuleProvider { SealedSerializableClassSerialNameRule() },
       RuleProvider { MagicAndroidVersionsRule() },
     )
   }
