@@ -1,7 +1,6 @@
 {
   "extends": [
-    "config:recommended",
-    ":disableDependencyDashboard"
+    "config:recommended"
   ],
   "prHourlyLimit": 0,
   "prConcurrentLimit": 0,
