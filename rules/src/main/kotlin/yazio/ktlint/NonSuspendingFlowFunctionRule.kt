@@ -1,5 +1,6 @@
 package yazio.ktlint
 
+import com.pinterest.ktlint.rule.engine.core.api.AutocorrectDecision
 import com.pinterest.ktlint.rule.engine.core.api.ElementType.EQ
 import com.pinterest.ktlint.rule.engine.core.api.ElementType.FUN
 import com.pinterest.ktlint.rule.engine.core.api.ElementType.LBRACE
@@ -7,18 +8,20 @@ import com.pinterest.ktlint.rule.engine.core.api.ElementType.MODIFIER_LIST
 import com.pinterest.ktlint.rule.engine.core.api.ElementType.SUSPEND_KEYWORD
 import com.pinterest.ktlint.rule.engine.core.api.ElementType.TYPE_REFERENCE
 import com.pinterest.ktlint.rule.engine.core.api.Rule
+import com.pinterest.ktlint.rule.engine.core.api.RuleAutocorrectApproveHandler
 import com.pinterest.ktlint.rule.engine.core.api.RuleId
 import com.pinterest.ktlint.rule.engine.core.api.nextCodeLeaf
 import org.jetbrains.kotlin.com.intellij.lang.ASTNode
 
-class NonSuspendingFlowFunctionRule : Rule(
-  ruleId = RuleId("yazio:suspending-flow"),
-  about = aboutYazio,
-) {
+class NonSuspendingFlowFunctionRule :
+  Rule(
+    ruleId = RuleId("yazio:suspending-flow"),
+    about = aboutYazio,
+  ),
+  RuleAutocorrectApproveHandler {
   override fun beforeVisitChildNodes(
     node: ASTNode,
-    autoCorrect: Boolean,
-    emit: (offset: Int, errorMessage: String, canBeAutoCorrected: Boolean) -> Unit,
+    emit: (offset: Int, errorMessage: String, canBeAutoCorrected: Boolean) -> AutocorrectDecision,
   ) {
     if (node.elementType != TYPE_REFERENCE) return
 
