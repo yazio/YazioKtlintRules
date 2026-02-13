@@ -44,6 +44,44 @@ class SealedSerializableClassSerialNameRuleTest {
   }
 
   @Test
+  fun `reports error for serializable object implementing sealed interface without serial name`() {
+    KtLintAssertThat.assertThatRule { SealedSerializableClassSerialNameRule() }(
+      // language=kotlin
+      """
+      package test
+
+      import kotlinx.serialization.Serializable
+
+      sealed interface Message
+
+      @Serializable
+      object StartMessage : Message
+      """.trimIndent(),
+    ).hasLintViolationsWithoutAutoCorrect(
+      LintViolation(7, 1, SealedSerializableClassSerialNameRule.ERROR_MESSAGE),
+    )
+  }
+
+  @Test
+  fun `reports error for serializable data object implementing sealed interface without serial name`() {
+    KtLintAssertThat.assertThatRule { SealedSerializableClassSerialNameRule() }(
+      // language=kotlin
+      """
+      package test
+
+      import kotlinx.serialization.Serializable
+
+      sealed interface Message
+
+      @Serializable
+      data object StartMessage : Message
+      """.trimIndent(),
+    ).hasLintViolationsWithoutAutoCorrect(
+      LintViolation(7, 1, SealedSerializableClassSerialNameRule.ERROR_MESSAGE),
+    )
+  }
+
+  @Test
   fun `does not report error for serializable class with serial name`() {
     KtLintAssertThat.assertThatRule { SealedSerializableClassSerialNameRule() }(
       // language=kotlin
@@ -63,6 +101,44 @@ class SealedSerializableClassSerialNameRuleTest {
   }
 
   @Test
+  fun `does not report error for serializable object with serial name`() {
+    KtLintAssertThat.assertThatRule { SealedSerializableClassSerialNameRule() }(
+      // language=kotlin
+      """
+      package test
+
+      import kotlinx.serialization.SerialName
+      import kotlinx.serialization.Serializable
+
+      sealed interface Message
+
+      @Serializable
+      @SerialName("start")
+      object StartMessage : Message
+      """.trimIndent(),
+    ).hasNoLintViolations()
+  }
+
+  @Test
+  fun `does not report error for serializable data object with serial name`() {
+    KtLintAssertThat.assertThatRule { SealedSerializableClassSerialNameRule() }(
+      // language=kotlin
+      """
+      package test
+
+      import kotlinx.serialization.SerialName
+      import kotlinx.serialization.Serializable
+
+      sealed interface Message
+
+      @Serializable
+      @SerialName("start")
+      data object StartMessage : Message
+      """.trimIndent(),
+    ).hasNoLintViolations()
+  }
+
+  @Test
   fun `does not report error for serializable class not in sealed hierarchy`() {
     KtLintAssertThat.assertThatRule { SealedSerializableClassSerialNameRule() }(
       // language=kotlin
@@ -75,6 +151,40 @@ class SealedSerializableClassSerialNameRuleTest {
 
       @Serializable
       data class StartMessage(val id: String) : Message
+      """.trimIndent(),
+    ).hasNoLintViolations()
+  }
+
+  @Test
+  fun `does not report error for serializable object not in sealed hierarchy`() {
+    KtLintAssertThat.assertThatRule { SealedSerializableClassSerialNameRule() }(
+      // language=kotlin
+      """
+      package test
+
+      import kotlinx.serialization.Serializable
+
+      interface Message
+
+      @Serializable
+      object StartMessage : Message
+      """.trimIndent(),
+    ).hasNoLintViolations()
+  }
+
+  @Test
+  fun `does not report error for serializable data object not in sealed hierarchy`() {
+    KtLintAssertThat.assertThatRule { SealedSerializableClassSerialNameRule() }(
+      // language=kotlin
+      """
+      package test
+
+      import kotlinx.serialization.Serializable
+
+      interface Message
+
+      @Serializable
+      data object StartMessage : Message
       """.trimIndent(),
     ).hasNoLintViolations()
   }
