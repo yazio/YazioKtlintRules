@@ -1,7 +1,6 @@
 package yazio.ktlint
 
 import com.pinterest.ktlint.rule.engine.core.api.AutocorrectDecision
-import com.pinterest.ktlint.rule.engine.core.api.ElementType.CLASS
 import com.pinterest.ktlint.rule.engine.core.api.ElementType.FILE
 import com.pinterest.ktlint.rule.engine.core.api.Rule
 import com.pinterest.ktlint.rule.engine.core.api.RuleAutocorrectApproveHandler
@@ -9,6 +8,7 @@ import com.pinterest.ktlint.rule.engine.core.api.RuleId
 import org.jetbrains.kotlin.com.intellij.lang.ASTNode
 import org.jetbrains.kotlin.lexer.KtTokens
 import org.jetbrains.kotlin.psi.KtClass
+import org.jetbrains.kotlin.psi.KtClassOrObject
 import org.jetbrains.kotlin.psi.KtSuperTypeListEntry
 import org.jetbrains.kotlin.psi.psiUtil.collectDescendantsOfType
 
@@ -29,18 +29,16 @@ class SealedSerializableClassSerialNameRule :
       return
     }
 
-    if (node.elementType != CLASS) return
-
-    val klass = node.psi as? KtClass ?: return
-    if (klass.isInterface()) return
-    if (!klass.hasAnnotationNamed("Serializable")) return
-    if (klass.hasAnnotationNamed("SerialName")) return
+    val declaration = node.psi as? KtClassOrObject ?: return
+    if (declaration is KtClass && declaration.isInterface()) return
+    if (!declaration.hasAnnotationNamed("Serializable")) return
+    if (declaration.hasAnnotationNamed("SerialName")) return
 
     val fileNode = node.psi.containingFile.node
     val sealedTypes = sealedTypesByFileOffset[fileNode.startOffset] ?: emptySet()
     if (sealedTypes.isEmpty()) return
 
-    val superTypeNames = klass.superTypeListEntries.mapNotNull { it.referencedTypeName() }
+    val superTypeNames = declaration.superTypeListEntries.mapNotNull { it.referencedTypeName() }
     if (superTypeNames.any(sealedTypes::contains)) {
       emit(node.startOffset, ERROR_MESSAGE, false)
     }
@@ -53,14 +51,14 @@ class SealedSerializableClassSerialNameRule :
 
   private fun collectSealedTypeNames(fileNode: ASTNode): Set<String> {
     val declarations =
-      fileNode.psi.collectDescendantsOfType<KtClass> { declaration ->
+      fileNode.psi.collectDescendantsOfType<KtClassOrObject> { declaration ->
         declaration.hasModifier(KtTokens.SEALED_KEYWORD)
       }
 
     return declarations.mapNotNull { it.name }.toSet()
   }
 
-  private fun KtClass.hasAnnotationNamed(name: String): Boolean {
+  private fun KtClassOrObject.hasAnnotationNamed(name: String): Boolean {
     return annotationEntries.any { entry ->
       val annotationName = entry.shortName?.asString() ?: return@any false
       annotationName == name
