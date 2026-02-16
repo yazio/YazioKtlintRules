@@ -15,7 +15,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
-          java-version: 11
+          java-version: 17
 
       - run: ./gradlew check
 
@@ -32,6 +32,12 @@ jobs:
     if: startsWith(github.ref, 'refs/tags')
     steps:
       - uses: actions/checkout@v6
+
+      - name: Setup JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'zulu'
+          java-version: 17
 
       - run: ./gradlew :rules:jar
       - run: cp rules/build/libs/rules.jar rules/build/libs/yazio-ktlint.jar
