@@ -40,10 +40,11 @@ class NonSuspendingFlowFunctionRule :
   }
 
   private fun isFlowType(typeElement: KtTypeElement?): Boolean {
-    val unwrappedType = when (typeElement) {
-      is KtNullableType -> typeElement.innerType
-      else -> typeElement
-    }
+    val unwrappedType =
+      when (typeElement) {
+        is KtNullableType -> typeElement.innerType
+        else -> typeElement
+      }
 
     val userType = unwrappedType as? KtUserType ?: return false
     return userType.referencedName == "Flow"
