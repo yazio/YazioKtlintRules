@@ -55,7 +55,9 @@ class NonReflectionSerializationRule :
         ?: return
 
     val actualArgumentCount =
-      node.findChildByType(VALUE_ARGUMENT_LIST)!!.children20
+      node
+        .findChildByType(VALUE_ARGUMENT_LIST)!!
+        .children20
         .count { it.elementType == VALUE_ARGUMENT }
     if (actualArgumentCount != requiredArgumentCount) {
       emit(

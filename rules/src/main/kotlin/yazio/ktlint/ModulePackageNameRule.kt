@@ -78,9 +78,7 @@ class ModulePackageNameRule :
   private fun packageNameIsValid(
     packageName: String,
     expectedPrefix: String,
-  ): Boolean {
-    return packageName == expectedPrefix || packageName.startsWith("$expectedPrefix.")
-  }
+  ): Boolean = packageName == expectedPrefix || packageName.startsWith("$expectedPrefix.")
 
   private fun findModuleContext(filePath: String): ModuleContextResult {
     val segments = filePath.split('/', '\\').filter { it.isNotBlank() }
@@ -118,7 +116,9 @@ class ModulePackageNameRule :
   private sealed class ModuleContextResult {
     data object None : ModuleContextResult()
 
-    data class Match(val context: ModuleContext) : ModuleContextResult()
+    data class Match(
+      val context: ModuleContext,
+    ) : ModuleContextResult()
 
     data class InvalidLayer(
       val moduleType: String,
