@@ -39,6 +39,36 @@ class NonSuspendingFlowFunctionRuleTest {
   }
 
   @Test
+  fun suspendingFullyQualifiedFlowShowsError() {
+    assertThatRule { NonSuspendingFlowFunctionRule() }(
+      // language=kotlin
+      """
+      class MyClass {
+
+        suspend fun suspendingFlow(): kotlinx.coroutines.flow.Flow<Unit> = TODO()
+      }
+
+      """.trimIndent(),
+    ).hasLintViolationWithoutAutoCorrect(3, 3, NonSuspendingFlowFunctionRule.ERROR_MESSAGE)
+  }
+
+  @Test
+  fun suspendingNullableFlowShowsError() {
+    assertThatRule { NonSuspendingFlowFunctionRule() }(
+      // language=kotlin
+      """
+      import kotlinx.coroutines.flow.Flow
+
+      class MyClass {
+
+        suspend fun suspendingFlow(): Flow<Unit>? = TODO()
+      }
+
+      """.trimIndent(),
+    ).hasLintViolationWithoutAutoCorrect(5, 3, NonSuspendingFlowFunctionRule.ERROR_MESSAGE)
+  }
+
+  @Test
   fun flowAsParameterShowsNoError() {
     assertThatRule { NonSuspendingFlowFunctionRule() }(
       // language=kotlin
