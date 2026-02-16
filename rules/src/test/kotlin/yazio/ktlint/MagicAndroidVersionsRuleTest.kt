@@ -38,10 +38,9 @@ class MagicAndroidVersionsRuleTest {
         GINGERBREAD
       }
       """.trimIndent(),
+    ).hasLintViolationsWithoutAutoCorrect(
+      LintViolation(3, 1, MagicAndroidVersionsRule.ERROR_MESSAGE),
     )
-      .hasLintViolationsWithoutAutoCorrect(
-        LintViolation(3, 1, MagicAndroidVersionsRule.ERROR_MESSAGE),
-      )
   }
 
   @Test
