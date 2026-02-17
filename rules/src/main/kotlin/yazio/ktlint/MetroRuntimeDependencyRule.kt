@@ -13,7 +13,6 @@ class MetroRuntimeDependencyRule :
     about = aboutYazio,
   ),
   RuleAutocorrectApproveHandler {
-
   override fun beforeVisitChildNodes(
     node: ASTNode,
     emit: (offset: Int, errorMessage: String, canBeAutoCorrected: Boolean) -> AutocorrectDecision,
@@ -27,13 +26,14 @@ class MetroRuntimeDependencyRule :
   }
 
   companion object {
-    val ALLOWED_IMPORTS = setOf(
-      "dev.zacsweers.metro.Includes",
-      "dev.zacsweers.metro.createGraphFactory",
-      "dev.zacsweers.metro.GraphExtension",
-      "dev.zacsweers.metro.HasMemberInjections",
-      "dev.zacsweers.metro.gradle.MetroPluginExtension",
-    )
+    val ALLOWED_IMPORTS =
+      setOf(
+        "dev.zacsweers.metro.Includes",
+        "dev.zacsweers.metro.createGraphFactory",
+        "dev.zacsweers.metro.GraphExtension",
+        "dev.zacsweers.metro.HasMemberInjections",
+        "dev.zacsweers.metro.gradle.MetroPluginExtension",
+      )
 
     val ERROR_MESSAGE =
       """

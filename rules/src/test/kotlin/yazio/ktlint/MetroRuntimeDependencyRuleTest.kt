@@ -1,13 +1,11 @@
 package yazio.ktlint
 
 import com.pinterest.ktlint.test.KtLintAssertThat.Companion.assertThatRule
-import com.pinterest.ktlint.test.LintViolation
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 
 class MetroRuntimeDependencyRuleTest {
-
   @ParameterizedTest
   @ValueSource(
     strings = [
