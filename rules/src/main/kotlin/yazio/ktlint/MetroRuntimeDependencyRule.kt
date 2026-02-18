@@ -6,6 +6,7 @@ import com.pinterest.ktlint.rule.engine.core.api.Rule
 import com.pinterest.ktlint.rule.engine.core.api.RuleAutocorrectApproveHandler
 import com.pinterest.ktlint.rule.engine.core.api.RuleId
 import org.jetbrains.kotlin.com.intellij.lang.ASTNode
+import org.jetbrains.kotlin.psi.KtImportDirective
 
 class MetroRuntimeDependencyRule :
   Rule(
@@ -26,11 +27,10 @@ class MetroRuntimeDependencyRule :
     if (importedPath.startsWith(METRO_IMPORT_PREFIX) && importedPath !in ALLOWED_IMPORTS) {
       emit(node.startOffset, ERROR_MESSAGE, false)
     }
-      emit(node.startOffset, ERROR_MESSAGE, false)
-    }
   }
 
   companion object {
+    const val METRO_IMPORT_PREFIX = "dev.zacsweers.metro."
     val ALLOWED_IMPORTS =
       setOf(
         "dev.zacsweers.metro.Includes",
