@@ -17,10 +17,15 @@ class MetroRuntimeDependencyRule :
     node: ASTNode,
     emit: (offset: Int, errorMessage: String, canBeAutoCorrected: Boolean) -> AutocorrectDecision,
   ) {
-    if (node.elementType == IMPORT_DIRECTIVE &&
-      node.text.startsWith("import dev.zacsweers.metro.") &&
-      node.text.substringAfter("import ") !in ALLOWED_IMPORTS
-    ) {
+    if (node.elementType != IMPORT_DIRECTIVE) return
+
+    val importDirective = node.psi as KtImportDirective
+    val importPath = importDirective.importPath ?: return
+
+    val importedPath = importPath.pathStr
+    if (importedPath.startsWith(METRO_IMPORT_PREFIX) && importedPath !in ALLOWED_IMPORTS) {
+      emit(node.startOffset, ERROR_MESSAGE, false)
+    }
       emit(node.startOffset, ERROR_MESSAGE, false)
     }
   }
