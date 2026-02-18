@@ -37,8 +37,8 @@ class MetroRuntimeDependencyRule :
 
     val ERROR_MESSAGE =
       """
-      Only approved Metro runtime APIs are allowed.
-      Allowed imports: ${ALLOWED_IMPORTS.joinToString(", ")}.
+      During the migration process, continue using Dagger, Anvil and Kotlin Inject annotations as before.
+      Currently only these Metro annotations are allowed: ${ALLOWED_IMPORTS.joinToString(", ")}.
       """.trimIndent()
   }
 }
