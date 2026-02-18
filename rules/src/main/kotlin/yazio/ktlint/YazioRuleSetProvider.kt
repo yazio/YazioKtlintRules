@@ -13,5 +13,6 @@ class YazioRuleSetProvider : RuleSetProviderV3(RuleSetId("yazio")) {
       RuleProvider { SealedSerializableClassSerialNameRule() },
       RuleProvider { MagicAndroidVersionsRule() },
       RuleProvider { ModulePackageNameRule() },
+      RuleProvider { MetroRuntimeDependencyRule() },
     )
 }

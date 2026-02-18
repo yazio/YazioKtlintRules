@@ -1,0 +1,49 @@
+package yazio.ktlint
+
+import com.pinterest.ktlint.rule.engine.core.api.AutocorrectDecision
+import com.pinterest.ktlint.rule.engine.core.api.ElementType.IMPORT_DIRECTIVE
+import com.pinterest.ktlint.rule.engine.core.api.Rule
+import com.pinterest.ktlint.rule.engine.core.api.RuleAutocorrectApproveHandler
+import com.pinterest.ktlint.rule.engine.core.api.RuleId
+import org.jetbrains.kotlin.com.intellij.lang.ASTNode
+import org.jetbrains.kotlin.psi.KtImportDirective
+
+class MetroRuntimeDependencyRule :
+  Rule(
+    ruleId = RuleId("yazio:metro-runtime"),
+    about = aboutYazio,
+  ),
+  RuleAutocorrectApproveHandler {
+  override fun beforeVisitChildNodes(
+    node: ASTNode,
+    emit: (offset: Int, errorMessage: String, canBeAutoCorrected: Boolean) -> AutocorrectDecision,
+  ) {
+    if (node.elementType != IMPORT_DIRECTIVE) return
+
+    val importDirective = node.psi as KtImportDirective
+    val importPath = importDirective.importPath ?: return
+
+    val importedPath = importPath.pathStr
+    if (importedPath.startsWith(METRO_IMPORT_PREFIX) && importedPath !in ALLOWED_IMPORTS) {
+      emit(node.startOffset, ERROR_MESSAGE, false)
+    }
+  }
+
+  companion object {
+    const val METRO_IMPORT_PREFIX = "dev.zacsweers.metro."
+    val ALLOWED_IMPORTS =
+      setOf(
+        "dev.zacsweers.metro.Includes",
+        "dev.zacsweers.metro.createGraphFactory",
+        "dev.zacsweers.metro.GraphExtension",
+        "dev.zacsweers.metro.HasMemberInjections",
+        "dev.zacsweers.metro.gradle.MetroPluginExtension",
+      )
+
+    val ERROR_MESSAGE =
+      """
+      During the migration process, continue using Dagger, Anvil and Kotlin Inject annotations as before.
+      Currently only these Metro annotations are allowed: ${ALLOWED_IMPORTS.joinToString(", ")}.
+      """.trimIndent()
+  }
+}
